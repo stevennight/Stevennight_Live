@@ -1,0 +1,90 @@
+<?php
+/**
+ *  A language file of the global website.
+ */
+return [
+    'header' => [
+        'edit' => '修改信息',
+        'logout' => '登出',
+        'guest' => '游客',
+        'login' => '登录',
+    ],
+    'footer' => [
+        'thanks' => '感谢',
+        'links' => '友情链接',
+        'without_link' => '没有友链',
+    ],
+    'edit' => [
+        'renew_user_info' => '更新用户信息',
+        'roomname' => '房间名',
+        'roomintro' => '房间简介',
+        'category' => '分类',
+        'rtmpurl' => 'RTMP地址',
+        'streamkey' => '串流码',
+        'cover_choose' => '选择封面',
+        'roomkey' => '房间密钥(自动生成)',
+        'reroomkey' => '重新生产房间密钥',
+        'cooperation' => '允许联播(聊天/人数统计同一频道)',
+        'otherroomkey' => '联播房间密钥',
+        'cooperation_details' => '联播是什么？怎么使用？看过来！',
+        'isindex' => '首页显示',
+        'save' => '保存',
+    ],
+    'index' => [
+        'index_page_title' => '首页',
+       'index_card_title' => 'Welcome to 7Live',
+        'index_card_tips' => '少年，你渴望力量吗？快来和我签订契约吧！ ♪(^∇^*)',
+        'index_card_login_btn' => '成为马猴烧酒！',
+        'without_category' => '没有任何分类，请联系管理员。',
+        'without_room_on_live' => '现在没有房间正在直播。',
+    ],
+    'login' => [
+        'must_login' => '执行该操作，必须先进行登录。',
+    ],
+    'room' => [
+        'page_title' => '播放页',
+        'can_not_found_room' => '房间无效。',
+        'tips_title' => '提示（点击关闭）',
+        'online_tips' => '在线：',
+        'chat_send' => '发送',
+        'danmaku_display' => '显示弹幕',
+        'can_not_found_cooperate_room' => '没有找到任何房间。',
+        'none_room_introduction_title' => '简介',
+        'none_room_introduction' => '主播很懒，没有房间简介。',
+    ],
+    'oauth' => [
+        'recall' => [
+            'oauth_server_can_not_connect' => '错误，无法访问认证服务器。请稍后再试。',
+            'oauth_server_get_error' => '错误！认证服务器返回错误信息：',
+            'oauth_token_can_not_save' => '错误，数据保存错误。',
+            'fail_to_save_user_into_database' => '错误，写入用户信息时出错。',
+            'fail_to_save_renew_token' => '错误，更新token信息时写入出错。',
+            'can_not_found_token' => '错误，没有找到令牌。',
+        ],
+        'refreshinfo' => [
+            'not_found_token' => '错误，没有找到令牌。',
+        ],
+    ],
+    'form' => [
+        'roomedit' => [
+            'required' => ' :attribute 必须填写。',
+            'between' => ' :attribute 的长度必须在 :min 至 :max 之间。',
+            'max' => ' :attribute 长度必须小于 :max 。',
+            'regex' => ':attribute 格式不符合要求。(rtmp地址格式为：rtmp://地址/ 。结尾必须带/)',
+            'alpha_dash' => ' :attribute 只能包含英文字母，数字，横杠(-)以及下划线(_)。',
+            'no_cover_seleted' => '未选择封面文件。',
+            'upload_cover_error' => '上传封面错误，请稍后再试。',
+            'invalid_extension' => '上传的封面为不支持的文件格式。',
+            'save_error' => '保存出错，请稍后再试。',
+            'success_save_room_edit' => '保存成功！',
+            'roomname' => '房间名',
+            'roomintro' => '房间简介',
+            'category' => '分类',
+            'rtmpurl' => '流地址',
+            'streamkey' => '串流码',
+            'cover' => '房间封面',
+            'isindex' => '首页显示',
+            'no_category' => '无任何分类，请联系管理员。',
+        ],
+    ],
+];
