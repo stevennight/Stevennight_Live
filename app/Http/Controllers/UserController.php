@@ -83,7 +83,7 @@ class UserController extends Controller{
         if($db_room == null) {
             $db_room = new Rooms();
             $db_room->userid = $userid;
-            $db_room->cover = $request->session()->get('config')->roomcover_default;
+            $db_room->coverurl = $request->session()->get('config')->roomcover_default;
             $db_room->roomkey = $this->generateRoomkey($username);
         }else{
             if($request->has('reroomkey')){
