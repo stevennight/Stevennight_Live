@@ -12,6 +12,12 @@ class Functions{
     public static function refreshUserInfoIntoSession($db_user){
 
         if($db_user == null){
+            session()->forget('member');
+            return;
+        }
+
+        if($db_user->baned == 1){
+            session()->forget('member');
             return;
         }
 

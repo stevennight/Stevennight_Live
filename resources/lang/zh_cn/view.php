@@ -60,6 +60,9 @@ return [
             'fail_to_save_user_into_database' => '错误，写入用户信息时出错。',
             'fail_to_save_renew_token' => '错误，更新token信息时写入出错。',
             'can_not_found_token' => '错误，没有找到令牌。',
+            'account_is_baned' => '该账号已被本站点封禁。',
+            'must_verify_email' => '账号必须通过邮箱验证允许登录。',
+            'must_verify_qq' => '账号必须通过QQ验证才允许登录。',
         ],
         'refreshinfo' => [
             'not_found_token' => '错误，没有找到令牌。',
@@ -85,6 +88,8 @@ return [
             'cover' => '房间封面',
             'isindex' => '首页显示',
             'no_category' => '无任何分类，请联系管理员。',
+            'must_verify_email' => '用户的邮箱必须通过验证才允许房间创建/修改！',
+            'must_verify_QQ' => '用户的QQ必须通过验证才允许房间创建/修改！'
         ],
     ],
 ];

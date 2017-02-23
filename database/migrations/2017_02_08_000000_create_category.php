@@ -9,14 +9,20 @@ class CreateCategory extends Migration
     /**
      * Run the migrations.
      *
+     * version: 1.0
      * @return void
      */
     public function up()
     {
-        Schema::create('category', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',20);
-        });
+        if(!Schema::hasTable('category')){
+            Schema::create('category', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name',20);
+            });
+        }else{
+
+        }
+
     }
 
     /**
@@ -26,6 +32,6 @@ class CreateCategory extends Migration
      */
     public function down()
     {
-        Schema::drop('category');
+
     }
 }

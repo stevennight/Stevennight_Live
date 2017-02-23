@@ -18,10 +18,9 @@ class OAuthController extends Controller
 
         //$oauth_url = 'http://account/oauth/';
         $oauth_gettoken_url = session('config')->oauth_url.'api/getaccesstoken';
-        $oauth_url_is_ssl = preg_match('/^(https):\/\/(.)+$/u',$oauth_gettoken_url)?true:false;
+        //$oauth_url_is_ssl = preg_match('/^(https):\/\/(.)+$/u',$oauth_gettoken_url)?true:false;
         $postdatas = [
             'authcode' => $authcode,
-            //'secret' => '98ZeEgiw497hu9hekqB95mx96yjZFx96',
             'secret' => session('config')->oauth_client_secret,
         ];
 
@@ -37,7 +36,6 @@ class OAuthController extends Controller
         if($token_info->status == 'error'){
             return redirect()->route('index')->withErrors(['oauth_error' => trans('view.oauth.recall.oauth_server_get_error').$token_info->details ]);
         }
-
         $access_token = $token_info->access_token;
         $expires_at = $token_info->expires_at;
         $update_token = $token_info->update_token;
@@ -51,17 +49,35 @@ class OAuthController extends Controller
         $db_oauthtokens->update_token_expires_at = $update_token_expires_at;
         if(!$db_oauthtokens->save()){
             return redirect()->route('index')->withErrors(['oauth_error' => trans('view.oauth.recall.oauth_token_can_not_save')]);
-
         }
 
+        //从账号中心更新用户信息到本地  update user information to local from account center.
         $result = $this->userInfoUpdate($request,$access_token,$update_token);
         if(!$result['status']){
             return redirect()->route('index')->withErrors($result['details']);
         }
         $db_user = $result['db_user'];
+
+        //是否允许邮件、QQ未激活用户登录
+        if($db_user->baned == 1){
+            return redirect()->route('index')->withErrors(['oauth_error' => trans('view.oauth.recall.account_is_baned')]);
+        }
+        if($request->session()->get('config')->mustVerifyEmail == 1){
+            if($db_user->email_active != 1){
+                return redirect()->route('index')->withErrors(['oauth_error' => trans('view.oauth.recall.must_verify_email')]);
+            }
+        }
+        if($request->session()->get('config')->mustVerifyQQ == 1){
+            if($db_user->QQ_active != 1){
+                return redirect()->route('index')->withErrors(['oauth_error' => trans('view.oauth.recall.must_verify_qq')]);
+            }
+        }
+
         $db_user->last_login = time();
         $db_user->save();
 
+        //成功登录  login successful.
+        Functions::refreshUserInfoIntoSession($db_user);
         return redirect()->route('index');
 
         /*$ch = curl_init();
@@ -101,14 +117,13 @@ class OAuthController extends Controller
             return response()->json($data);
         }
 
-        Functions::refreshUserInfoIntoSession(Users::where('id','=',session('member.userid'))->first());
-
-
+        //更新成功。
+        $db_user = $result['db_user'];
+        Functions::refreshUserInfoIntoSession($db_user);
         $data = [
             'status' => 'success',
         ];
         return response()->json($data);
-
     }
 
     public function userInfoUpdate(Request $request,$access_token,$update_token){
@@ -142,12 +157,15 @@ class OAuthController extends Controller
         $db_user = Users::where('remote_userid','=',$response->details->userid)->first();
         if($db_user == null){
             $db_user = new Users();
+            $db_user->baned = 0;
             $db_user->last_login = 0;
+        }
+        if($response->details->baned == 1){
+            $db_user->baned = $response->details->baned;
         }
         $db_user->remote_userid = $response->details->userid;
         $db_user->username = $response->details->username;
         $db_user->group = $response->details->group;
-        $db_user->baned = $response->details->baned;
         $db_user->email = $response->details->email;
         $db_user->email_active = $response->details->email_active;
         $db_user->QQ = $response->details->QQ;
@@ -161,7 +179,6 @@ class OAuthController extends Controller
         }
 
         $request->session()->regenerate();
-        Functions::refreshUserInfoIntoSession($db_user);
 
         $db_oauth_tokens = OauthTokens::where('access_token','=',$access_token)->where('update_token','=',$update_token)->first();
         if($db_oauth_tokens == null){

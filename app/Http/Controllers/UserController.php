@@ -5,6 +5,7 @@ use App\Custom\Functions;
 use App\Database\Category;
 use App\Database\ConfigGlobalWebsite;
 use App\Database\Rooms;
+use App\Database\Users;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -40,6 +41,21 @@ class UserController extends Controller{
     public function roomedit(Request $request){
         $userid = $request->session()->get('member.userid');
         $username = $request->session()->get('member.username');
+
+        $db_user = Users::where('id','=',$userid)->first();
+        if($db_user == null){
+
+        }
+        if($request->session()->get('config')->mustVerifyEmail_when_createroom == 1){
+            if($db_user->email_active != 1){
+                return redirect()->back()->withErrors(['upload_cover_error' => trans('view.form.roomedit.must_verify_email')])->withInput();
+            }
+        }
+        if($request->session()->get('config')->mustVerifyQQ_when_createroom == 1){
+            if($db_user->QQ_active != 1){
+                return redirect()->back()->withErrors(['upload_cover_error' => trans('view.form.roomedit.must_verify_QQ')])->withInput();
+            }
+        }
 
         $this->validate($request,[
             'roomname' => 'required|between:3,15',

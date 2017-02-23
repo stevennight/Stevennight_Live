@@ -13,11 +13,13 @@ class CreateLinks extends Migration
      */
     public function up()
     {
-        Schema::create('links', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name',20);
-            $table->text('link');
-        });
+        if(!Schema::hasTable('links')){
+            Schema::create('links', function (Blueprint $table) {
+                $table->increments('id');
+                $table->string('name',20);
+                $table->text('link');
+            });
+        }
     }
 
     /**
@@ -27,6 +29,6 @@ class CreateLinks extends Migration
      */
     public function down()
     {
-        Schema::drop('links');
+
     }
 }
