@@ -143,3 +143,5 @@ php artisan migrate:refresh
 ## License
 
 [GNU General Public License, version 3](license)
+
+*播放器由Flash Media Server 中提取并使用，版权属Adobe所有。如有不当，请联系，将撤下使用的播放器，届时各位要使用的话请自行嵌入播放器到相关位置。
