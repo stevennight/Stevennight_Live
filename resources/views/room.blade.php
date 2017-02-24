@@ -82,7 +82,7 @@
 
         @if(count($errors))
             <div id="tips_card" class="row">
-                <div class="red card lighten-1">
+                <div class="pink accent-2 card lighten-1">
                     <div class="card-content white-text">
                         <span class="card-title">{{ trans('view.room.tips_title') }}</span>
                         <p>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="right col s7">
                     <div class="left col s12" style="display:table;">
-                        <div class="word-break" style="font-size:large;vertical-align:middle;display:table-cell;height:100px;overflow-y:hide;">「{{ $value['room_info']->roomintro == ''?trans('view.room.none_room_introduction'):$value['room_info']->roomintro }}」</div>
+                        <div class="word-break" style="font-size:large;vertical-align:middle;display:table-cell;height:100px;">「{{ $value['room_info']->roomintro == ''?trans('view.room.none_room_introduction'):$value['room_info']->roomintro }}」</div>
                     </div>
                 </div>
                 <div>
@@ -155,7 +155,7 @@
                         <div class="col s1"></div>
                         <input class="col s8" id="text_chatsend2" type="text" class="" style="margin:2px 0px;">
                         <div class="col s3">
-                            <a id="btn_chatsend2" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                            <a id="btn_chatsend2" class="btn blue darken-2 waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
                             <input type="checkbox" id="danmaku_display2" checked />
                             <label for="danmaku_display2">{{ trans('view.room.danmaku_display') }}</label>
                         </div>
@@ -195,7 +195,7 @@
                     @else
                         <div class='card-action' style="padding:5px;">
                             <input id="text_chatsend" type="text" class="" style="margin:2px 0px;">
-                            <a id="btn_chatsend" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                            <a id="btn_chatsend" class="btn blue darken-2 waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
                             <input type="checkbox" id="danmaku_display" checked />
                             <label for="danmaku_display">{{ trans('view.room.danmaku_display') }}</label>
                         </div>
@@ -604,6 +604,10 @@
                     console.log(text.length);
                     */
                 }
+
+                /*setInterval(function () {
+                    danmakuGenerate(commentid++,"自己：11111");
+                },50);*/
             });
         </script>
 

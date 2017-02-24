@@ -36,7 +36,7 @@
             -khtml-border-radius: 0px;
             border-radius: 0px;
             background: #308bc8;
-            -webkit-box-shadow: inset 0 0 6px #005c9a;
+            -webkit-box-shadow: inset 0 0 6px #0288d1 ;
         }
         ::-webkit-scrollbar-track {
             border-left: 1px solid #0b242f;
@@ -52,8 +52,8 @@
     </style>
 </head>
 
-<body>
-<nav class="blue lighten-1 z-depth-4">
+<body class="blue lighten-5">
+<nav class="blue darken-2 z-depth-4">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo"></a>
         <ul class="left hide-on-med-and-down">
@@ -216,7 +216,7 @@
         </div>
         @show
 </div>
-<footer class="blue page-footer">
+<footer class="blue darken-2 page-footer">
     <div class="container">
         <div class="row">
             <div class="col l6 s12">

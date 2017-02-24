@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <div class="card blue">
+                <div class="card blue darken-2">
                     <div class="card-content white-text">
                         <span class="card-title">{{ trans('view.index.index_card_title') }}</span>
                         <p>
@@ -27,7 +27,7 @@
                     <div class="card-action">
 
                         @if( !session()->has('member') )
-                            <a href="{{ route('login') }}" class="btn red lighten-1 waves-effect waves-light">{{ trans('view.index.index_card_login_btn') }}</a>
+                            <a href="{{ route('login') }}" class="btn pink accent-2 waves-effect waves-light">{{ trans('view.index.index_card_login_btn') }}</a>
                             @endif
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                                         <span>{{ $db_category_room->roomintro }}</span>
                                     </div>
                                     <div class="card-action">
-                                        <span class='blue-text text-darken-3' style="font-weight: bolder;" href="#">{{ $db_category_room->roomname }}</span>
+                                        <span class='text-darken-2' style="font-weight: bolder;" href="#">{{ $db_category_room->roomname }}</span>
                                         <span class="new badge {{ ($loop->index%3 == 0)?'blue':(($loop->index%3==1)?'red':'green') }}" data-badge-caption="Online" id="chatOnline{{$db_category_room->id}}">1</span>
                                     </div>
                                 </div>
