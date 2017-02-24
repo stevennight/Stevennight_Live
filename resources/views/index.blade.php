@@ -13,7 +13,7 @@
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <div class="card blue lighten-2">
+                <div class="card blue">
                     <div class="card-content white-text">
                         <span class="card-title">{{ trans('view.index.index_card_title') }}</span>
                         <p>
@@ -27,7 +27,7 @@
                     <div class="card-action">
 
                         @if( !session()->has('member') )
-                            <a href="{{ route('login') }}" class="btn blue lighten-1 waves-effect waves-light">{{ trans('view.index.index_card_login_btn') }}</a>
+                            <a href="{{ route('login') }}" class="btn red lighten-1 waves-effect waves-light">{{ trans('view.index.index_card_login_btn') }}</a>
                             @endif
                     </div>
                 </div>

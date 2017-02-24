@@ -50,10 +50,11 @@
             border-radius: 5px;
             font-size: 1.4em;
             white-space:nowrap;
+            letter-spacing:1px;
             {{--字体描边--}}
-            text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
-            -webkit-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
-            -moz-text-shadow:#000 1px 0 0,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            text-shadow:#000 1px 0 10px,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            -webkit-text-shadow:#000 1px 0 10px,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
+            -moz-text-shadow:#000 1px 0 10px,#000 0 1px 0,#000 -1px 0 0,#000 0 -1px 0;
             *filter: Glow(color=#000, strength=1);
         }
         @keyframes move
@@ -81,7 +82,7 @@
 
         @if(count($errors))
             <div id="tips_card" class="row">
-                <div class="blue card lighten-1">
+                <div class="red card lighten-1">
                     <div class="card-content white-text">
                         <span class="card-title">{{ trans('view.room.tips_title') }}</span>
                         <p>
@@ -105,8 +106,8 @@
                     <img class="circle" style="width:100px;height:100px;" src="{{ session('config')->oauth_url.'api/getavatar/'.$value['room_info']->users->remote_userid }}" />
                 </div>
                 <div class="right col s7">
-                    <div class="left col s12">
-                        <div class="word-break" style="height:100px;overflow-y:auto;">「{{ $value['room_info']->roomintro == ''?trans('view.room.none_room_introduction'):$value['room_info']->roomintro }}」</div>
+                    <div class="left col s12" style="display:table;">
+                        <div class="word-break" style="font-size:large;vertical-align:middle;display:table-cell;height:100px;overflow-y:hide;">「{{ $value['room_info']->roomintro == ''?trans('view.room.none_room_introduction'):$value['room_info']->roomintro }}」</div>
                     </div>
                 </div>
                 <div>
@@ -123,9 +124,6 @@
         <div class="row">
 
             <div id="player" class="col s9">
-                <div id="jwplayer">
-
-                </div>
                 <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" style="height:100%;width:100%;">
 
                     <param name="movie" value="/files/public/player.swf">
@@ -139,13 +137,29 @@
 
                 </div>
                 <div class="" id="divPlayerSend">
-                    <div class="col s1"></div>
-                    <input class="col s8" id="text_chatsend2" type="text" class="" style="margin:2px 0px;">
-                    <div class="col s3">
-                        <a id="btn_chatsend2" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
-                        <input type="checkbox" id="danmaku_display2" checked />
-                        <label for="danmaku_display2">{{ trans('view.room.danmaku_display') }}</label>
-                    </div>
+                    @if( $value['room_info']->guestChat == 0 )
+                        @if( session()->has('member') )
+                            <div class="col s1"></div>
+                            <input class="col s8" id="text_chatsend2" type="text" class="" style="margin:2px 0px;">
+                            <div class="col s3">
+                                <a id="btn_chatsend2" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                                <input type="checkbox" id="danmaku_display2" checked />
+                                <label for="danmaku_display2">{{ trans('view.room.danmaku_display') }}</label>
+                            </div>
+                        @else
+                            <div class='col s12 white-text' style="padding:5px;">
+                                {{ trans('view.room.chat_must_login') }}
+                            </div>
+                        @endif
+                    @else
+                        <div class="col s1"></div>
+                        <input class="col s8" id="text_chatsend2" type="text" class="" style="margin:2px 0px;">
+                        <div class="col s3">
+                            <a id="btn_chatsend2" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                            <input type="checkbox" id="danmaku_display2" checked />
+                            <label for="danmaku_display2">{{ trans('view.room.danmaku_display') }}</label>
+                        </div>
+                    @endif
                 </div>
                 <div id="divDanmaku">
                     <div id="danmakuLineHeight" style="display:none">Line Height</div>
@@ -165,12 +179,27 @@
 
                         </div>
                     </div>
-                    <div class='card-action' style="padding:5px;">
-                        <input id="text_chatsend" type="text" class="" style="margin:2px 0px;">
-                        <a id="btn_chatsend" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
-                        <input type="checkbox" id="danmaku_display" checked />
-                        <label for="danmaku_display">{{ trans('view.room.danmaku_display') }}</label>
-                    </div>
+                    @if( $value['room_info']->guestChat == 0 )
+                        @if( session()->has('member') )
+                            <div class='card-action' style="padding:5px;">
+                                <input id="text_chatsend" type="text" class="" style="margin:2px 0px;">
+                                <a id="btn_chatsend" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                                <input type="checkbox" id="danmaku_display" checked />
+                                <label for="danmaku_display">{{ trans('view.room.danmaku_display') }}</label>
+                            </div>
+                        @else
+                            <div class='card-action' style="padding:5px;">
+                                {{ trans('view.room.chat_must_login') }}
+                            </div>
+                        @endif
+                    @else
+                        <div class='card-action' style="padding:5px;">
+                            <input id="text_chatsend" type="text" class="" style="margin:2px 0px;">
+                            <a id="btn_chatsend" class="btn blue waves-effect waves-light">{{ trans('view.room.chat_send') }}</a>
+                            <input type="checkbox" id="danmaku_display" checked />
+                            <label for="danmaku_display">{{ trans('view.room.danmaku_display') }}</label>
+                        </div>
+                    @endif
                 </div>
             </div>
 
@@ -330,7 +359,7 @@
                     },100);
                     danmaku.animate(
                         {'left': -danmaku.width()-20},
-                        {{ session('config')->danmakuSpeed }},
+                        $('#divDanmaku').width()/474*{{ session('config')->danmakuSpeed }},
                         'linear',
                         function(){
                             danmaku.remove();

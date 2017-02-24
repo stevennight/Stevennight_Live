@@ -64,10 +64,14 @@ class CreateConfigGlobalWebsite extends Migration
     {
         Schema::table('config_global_website',function($table){
             if(Schema::hasColumn('config_global_website','mustVerifyEmail')){
-                $table->dropColumn('mustVerifyEmail');
-                $table->dropColumn('mustVerifyQQ');
-                $table->dropColumn('mustVerifyEmail_when_createroom');
-                $table->dropColumn('mustVerifyQQ_when_createroom');
+                if(Schema::hasColumn('config_global_website','mustVerifyEmail'))
+                    $table->dropColumn('mustVerifyEmail');
+                if(Schema::hasColumn('config_global_website','mustVerifyQQ'))
+                    $table->dropColumn('mustVerifyQQ');
+                if(Schema::hasColumn('config_global_website','mustVerifyEmail_when_createroom'))
+                    $table->dropColumn('mustVerifyEmail_when_createroom');
+                if(Schema::hasColumn('config_global_website','mustVerifyQQ_when_createroom'))
+                    $table->dropColumn('mustVerifyQQ_when_createroom');
             }
         });
     }

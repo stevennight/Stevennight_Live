@@ -53,7 +53,7 @@
 </head>
 
 <body>
-<nav class="blue lighten-1">
+<nav class="blue lighten-1 z-depth-4">
     <div class="nav-wrapper">
         <a href="#" class="brand-logo"></a>
         <ul class="left hide-on-med-and-down">
@@ -196,6 +196,10 @@
                                     <div class="row">
                                         <input type="checkbox" id="test5" name="isindex" {{ old('isindex')?'checked':(session()->has('room')?(session('room.isindex')==1?'checked':''):'') }} />
                                         <label for="test5">{{ trans('view.edit.isindex') }}</label>
+                                    </div>
+                                    <div class="row">
+                                        <input type="checkbox" id="guestChat" name="guestChat" {{ old('guestChat')?'checked':(session()->has('room')?(session('room.guestChat')==1?'checked':''):'') }} />
+                                        <label for="guestChat">{{ trans('view.edit.guestChat') }}</label>
                                     </div>
 
                                     <div class="row">

@@ -9,7 +9,7 @@ class CreateRooms extends Migration
     /**
      * Run the migrations.
      *
-     * version: 1.0
+     * version: 1.1
      * @return void
      */
     public function up()
@@ -32,6 +32,12 @@ class CreateRooms extends Migration
                 $table->string('updated_at',255);
             });
         }
+        Schema::table('rooms',function ($table){
+            $table->integer('guestChat');
+        });
+        \Illuminate\Support\Facades\DB::table('rooms')->update([
+            'guestChat' => 0,
+        ]);
     }
 
     /**
@@ -41,6 +47,9 @@ class CreateRooms extends Migration
      */
     public function down()
     {
-
+        Schema::table('rooms',function ($table){
+            if(Schema::hasColumn('rooms','guestChat'))
+                $table->dropColumn('guestChat');
+        });
     }
 }

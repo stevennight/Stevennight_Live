@@ -62,6 +62,7 @@ class Functions{
             'cooperation' => $db_rooms->cooperation,
             'otherroomkey' => $db_rooms->otherroomkey,
             'isindex' => $db_rooms->isindex,
+            'guestChat' => $db_rooms->guestChat,
         ];
         session()->put('room',$data);
         return;

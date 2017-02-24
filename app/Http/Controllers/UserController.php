@@ -59,7 +59,7 @@ class UserController extends Controller{
 
         $this->validate($request,[
             'roomname' => 'required|between:3,15',
-            'roomintro' => 'max:250',
+            'roomintro' => 'max:70',
             'category' => 'required',
             'rtmpurl' => 'required|regex:/^(rtmp:\/\/)[A-Za-z0-9\.\/:]+\/$/u',
             'streamkey' => 'required|alpha_dash|between:1,20',
@@ -125,6 +125,7 @@ class UserController extends Controller{
             $db_room->otherroomkey = '';
         }
         $db_room->isindex = $request->has('isindex')?1:0;
+        $db_room->guestChat = $request->has('guestChat')?1:0;
         if(!$db_room->save()){
             return redirect()->back()->withErrors(['save_error' => trans('view.form.roomedit.save_error')])->withInput();
         }

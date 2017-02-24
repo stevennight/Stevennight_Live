@@ -28,6 +28,7 @@ return [
         'otherroomkey' => '联播房间密钥',
         'cooperation_details' => '联播是什么？怎么使用？看过来！',
         'isindex' => '首页显示',
+        'guestChat' => '游客发言(生效不及时，建议开始直播前设置好。)',
         'save' => '保存',
     ],
     'index' => [
@@ -51,6 +52,7 @@ return [
         'can_not_found_cooperate_room' => '没有找到任何房间。',
         'none_room_introduction_title' => '简介',
         'none_room_introduction' => '主播很懒，没有房间简介。',
+        'chat_must_login' => '您需要登录才能发言。',
     ],
     'oauth' => [
         'recall' => [

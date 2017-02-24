@@ -18,6 +18,7 @@ class RoomController extends Controller{
         }
         $db_categorys = Category::all();
 
+        //计算使用自己的房间密钥还是合作的他人的密钥
         $final_roomkey = Functions::getRoomkey($roomid);
         $cooperation_status = false;
         if($final_roomkey != $db_room->roomkey){
