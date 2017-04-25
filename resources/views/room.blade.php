@@ -19,6 +19,10 @@
             -ms-user-select:none;
             user-select:none;
         }
+        #flashplayer,#hlsplayer{
+            height:100%;
+            width:100%;
+        }
         #divPlayerSend{
             position:absolute;
             z-index:101;
@@ -82,7 +86,7 @@
 
         @if(count($errors))
             <div id="tips_card" class="row">
-                <div class="pink accent-2 card lighten-1">
+                <div class="pink accent-2 card">
                     <div class="card-content white-text">
                         <span class="card-title">{{ trans('view.room.tips_title') }}</span>
                         <p>
@@ -105,8 +109,8 @@
                 <div class="left col">
                     <img class="circle" style="width:100px;height:100px;" src="{{ session('config')->oauth_url.'api/getavatar/'.$value['room_info']->users->remote_userid }}" />
                 </div>
-                <div class="right col s7">
-                    <div class="left col s12" style="display:table;">
+                <div id="introdiv" class="right col s7">
+                    <div  class="left col s12" style="display:table;">
                         <div class="word-break" style="font-size:large;vertical-align:middle;display:table-cell;height:100px;">「{{ $value['room_info']->roomintro == ''?trans('view.room.none_room_introduction'):$value['room_info']->roomintro }}」</div>
                     </div>
                 </div>
@@ -119,12 +123,21 @@
                 <div>
                     <div  style="font-size: large">{{ $value['room_info']->categorys->name }}</div>
                 </div>
+                <div>
+                    <button class="btn blue darken-2" id="changeplayer" style="display:none;">{{ trans("view.room.changeplayer") }}</button>
+                </div>
             </div>
         </div>
         <div class="row">
 
             <div id="player" class="col s9">
-                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" style="height:100%;width:100%;">
+
+                {{--
+                player generation begin
+                --}}
+                @if($value['room_info']->openrtmp)
+                <object id="flashplayer" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0"
+                        style="{{ (!$value['room_info']->rtmpfirst && $value['room_info']->openhls)?"display:none;":"" }}height:100%;width:100%;">
 
                     <param name="movie" value="/files/public/player.swf">
                     <param name="quality" value="high">
@@ -133,6 +146,41 @@
                     {{--<param name="wmode" value="transparent">--}}
                     <embed style="height:100%;width:100%;" src="/files/public/player.swf" flashvars="&src={{ $value['room_info']->rtmpurl }}{{ $value['room_info']->streamkey }}&autoHideControlBar=true&streamType=live&autoPlay=true&verbose=true" quality="high" allowfullscreen pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" {{--wmode="transparent"--}}></embed>
                 </object>
+                @endif
+                @if($value['room_info']->openhls)
+                    <div id="hlsplayer" style="{{ ($value['room_info']->rtmpfirst && $value['room_info']->openrtmp)?"display:none":"" }}" class="dplayer"></div>
+                    <script src="../js/flv.min.js"></script>
+                    <script src="../js/hls.min.js"></script>
+                    <script src="../js/DPlayer.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="../js/DPlayer.min.css">
+                    <script>
+                        var dp = new DPlayer({
+                            element: document.getElementById('hlsplayer'),
+                            autoplay: {{ ($value['room_info']->rtmpfirst && $value['room_info']->openrtmp)?"false":"true" }},
+                            theme: '#FADFA3',
+                            loop: false,
+                            lang: 'zh',
+                            screenshot: false,
+                            hotkey: true,
+                            preload: 'auto',
+                            video: {
+                                url: '{{ $value['room_info']->hlsurl }}',
+                                type: 'hls'
+                            }
+                        });
+                        var inter = setInterval(function(){
+                            //dp.play(dp.video.duration-16);
+                            if(!isNaN(dp.video.duration)){
+                                dp.video.currentTime = dp.video.duration-16;
+                                clearInterval(inter);
+                            }
+                        },1000);
+                    </script>
+                @endif
+                {{--
+                player generation end
+                --}}
+
                 <div class="center" id="divPlayerSendFake">
 
                 </div>
@@ -168,6 +216,7 @@
 
                 </div>
             </div>
+
 
             <div id="chatlist" class="col s3" >
                 <div class="card">
@@ -211,7 +260,7 @@
                     @if($loop->first)
                         <div class="row">
                             <div>
-                                <a style="font-size:1.8em;font-weight: bolder;">联播房间</a>
+                                <a style="font-size:1.8em;font-weight: bolder;">{{ trans('view.room.cooperate_room_list') }}</a>
                             </div>
                     @endif
                             <a href="{{ route('room',['room_id' => $db_coop_room->id]) }}">
@@ -236,11 +285,30 @@
         @endif
 
         <script type="text/javascript">
+            //判断手机还是pc
+            function IsPC() {
+                var userAgentInfo = navigator.userAgent;
+                var Agents = ["Android", "iPhone",
+                    "SymbianOS", "Windows Phone",
+                    "iPad", "iPod"];
+                var flag = true;
+                for (var v = 0; v < Agents.length; v++) {
+                    if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                        flag = false;
+                        break;
+                    }
+                }
+                return flag;
+            }
+
             $(function(){
 
                 {{--全局变量  global variable--}}
                 var pre_windowWidth = 0;
                 var pre_windowHeight = 0;
+                var control_height = 45;
+                var isPC = IsPC();
+                var multitype = {{ ($value['room_info']->openrtmp && $value['room_info']->openhls)?"true":"false" }};
                 var isFullScreen = false;
                 var isDisplayDanmaku = true;
                 var divSendChatTimeout;
@@ -248,6 +316,17 @@
                 var danmakuLineRight = [];
 
                 setInterval(Resize,100);
+
+                //手机并且是flashPlayer优先的情况下，自动切换到hlsplayer，否则显示不支持。
+                @if( $value['room_info']->openrtmp && $value['room_info']->openhls && $value['room_info']->rtmpfirst)
+                    if(!isPC){
+                        changePlayer();
+                    }
+                @elseif($value['room_info']->openrtmp && !$value['room_info']->openhls)
+                    if(!isPC){
+                        $("#player").html('本房间视频，你的设备不被支持。')
+                    }
+                @endif
 
                 function Resize(isForce){
                     var windowWidth = window.innerWidth;
@@ -284,11 +363,11 @@
                             $('#divDanmaku').css('left',0);
                             $('#divDanmaku').css('top',0);
                             $('#divDanmaku').css('width',width);
-                            $('#divDanmaku').css('height',height-30);
+                            $('#divDanmaku').css('height',height-control_height);
                             $('#divDanmakufade').css('left',0);
                             $('#divDanmakufade').css('top',0);
                             $('#divDanmakufade').css('width',width);
-                            $('#divDanmakufade').css('height',height-30);
+                            $('#divDanmakufade').css('height',height-control_height);
                             $('#divPlayerSend').css('left',0);
                             $('#divPlayerSend').css('top',0);
                             $('#divPlayerSend').css('width',width);
@@ -301,10 +380,10 @@
                             $('#player').css('height',height);
                             $('#chatcontent').css('height',height-145);
                             $('#divDanmaku').css('width',width);
-                            $('#divDanmaku').css('height',height-30);
+                            $('#divDanmaku').css('height',height-control_height);
                             $('#divDanmaku').css('margin-top',-(height+7));
                             $('#divDanmakufade').css('width',width);
-                            $('#divDanmakufade').css('height',height-30);
+                            $('#divDanmakufade').css('height',height-control_height);
                             $('#divDanmakufade').css('margin-top',-(height+7));
                         }
 
@@ -394,28 +473,69 @@
                     return finalLine;
                 }
 
+                //更换播放器  change the flashplayer to html5 player or reserve.
+                function changePlayer(){
+                    if($("#hlsplayer").css('display')=="none"){
+                        $('#flashplayer').css('display','none');
+                        $("#hlsplayer").css('display','block');
+                        dp.play(dp.video.duration-13);
+                    }else{
+                        dp.pause();
+                        $("#hlsplayer").css('display','none');
+                        $('#flashplayer').css('display','block');
+                    }
+                }
 
+                //全屏与退出。
+                function exitFullScreenFun(){
+                    var player = window.document.getElementById('player');
+                    exitFullscreen(player);
+                    if(isDisplayDanmaku){
+                        $("#danmaku_display").prop("checked",true);
+                    }else{
+                        $("#danmaku_display").prop("checked",false);
+                    }
+                    console.info(isDisplayDanmaku);
+                    Resize(true);
+                    isFullScreen = false;
+                }
+                function launchFullScreenFun(){
+                    var player = window.document.getElementById('player');
+                    launchFullscreen(player);
+                    if(!isPC){
+                    	screen.orientation.lock('landscape');
+                    }
+                    Resize(true);
+                    isFullScreen = true;
+                }
 
                 {{--事件监听   Listener--}}
                 {{--设置全屏或者取消全屏   set fullscreen or disable fullscreen--}}
-                $("#divDanmakufade").on('dblclick',function(){
+                $("#divDanmakufade").on('click',function(){
                     var player = window.document.getElementById('player');
                     if(isFullScreen){
-                        exitFullscreen(player);
-                        if(isDisplayDanmaku){
-                            $("#danmaku_display").prop("checked",true);
-                        }else{
-                            $("#danmaku_display").prop("checked",false);
-                        }
-                        console.info(isDisplayDanmaku);
-                        Resize(true);
-                        isFullScreen = false;
+                        exitFullScreenFun();
                     }else{
-                        launchFullscreen(player);
-                        Resize(true);
-                        isFullScreen = true;
+                        launchFullScreenFun();
                     }
                 });
+                $(".dplayer-full-icon").on('click',function(){
+                    if(isFullScreen){
+                        exitFullScreenFun();
+                    }else{
+                        launchFullScreenFun();
+                    }
+                });
+
+                if(multitype && isPC){
+                    $("#changeplayer").css('display','block');
+                }
+                $("#changeplayer").on('click',function(){
+                    if(multitype && isPC){
+                        changePlayer();
+                    }
+                });
+
                 var hidden = true;
                 $("#divPlayerSendFake").mouseover(function(){
                     if(isFullScreen){
@@ -491,7 +611,7 @@
                 socket.on('connect',function(data){
                     socket.emit('join',{
                         roomid:"{{ $value['final_roonkey_encry'] }}",
-                        username: "{{ $value['room_info']->users->username }}",
+                        username: "{{ session()->has('member')?session()->get('member.username'):'guest'}}",
                     });
                     $("#chatcontent").append("<a style='color:green;'> 已连接到聊天服务器。<br /> </a>");
                     //获取在线人数

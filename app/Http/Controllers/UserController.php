@@ -61,8 +61,12 @@ class UserController extends Controller{
             'roomname' => 'required|between:3,15',
             'roomintro' => 'max:70',
             'category' => 'required',
-            'rtmpurl' => 'required|regex:/^(rtmp:\/\/)[A-Za-z0-9\.\/:]+\/$/u',
-            'streamkey' => 'required|alpha_dash|between:1,20',
+            'openrtmp' => '',
+            'rtmpurl' => 'regex:/^(rtmp:\/\/)[A-Za-z0-9\.\/:]+\/$/u',
+            'streamkey' => 'alpha_dash|between:1,20',
+            'openhls' => '',
+            'hlsurl' => '',
+            'rtmpfirst' => '',
             'cover' => '',
             'otherroomkey' => 'max:255',
             'isindex' => '',
@@ -76,8 +80,12 @@ class UserController extends Controller{
             'roomname' => trans('view.form.roomedit.roomname'),
             'roomintro' => trans('view.form.roomedit.roomintro'),
             'category' => trans('view.form.roomedit.category'),
+            'openrtmp' => trans('view.form.roomedit.openrtmp'),
             'rtmpurl' => trans('view.form.roomedit.rtmpurl'),
             'streamkey' => trans('view.form.roomedit.streamkey'),
+            'openhls' => trans('view.form.roomedit.openhls'),
+            'hlsurl' => trans('view.form.roomedit.hlsurl'),
+            'rtmpfirst' => trans('view.form.roomedit.rtmpfirst'),
             'cover' => trans('view.form.roomedit.cover'),
             'isindex' => trans('view.form.roomedit.isindex'),
         ]);
@@ -95,6 +103,29 @@ class UserController extends Controller{
             $path = $file->store('room/cover');
         }
 
+        //判断hls和rtmp直播方式设置   check the hls type and rtmp type
+        if(!($request->has('openrtmp')||$request->has('openhls'))){
+            return redirect()->back()->withErrors(['invalid_extension' => trans('view.form.roomedit.must_open_one_least_type')])->withInput();
+        }else{
+            //rtmp
+            if(!($request->has('rtmpurl') && $request->has('streamkey'))){
+                if($request->has('openrtmp')){
+                    return redirect()->back()->withErrors(['invalid_extension' => trans('view.form.roomedit.must_has_rtmlurl_key_when_openrtmp')])->withInput();
+                }
+            }
+            //hls
+            if($request->has('openhls')){
+                if(!$request->has('hlsurl')){
+                    return redirect()->back()->withErrors(['invalid_extension' => trans('view.form.roomedit.must_has_hlsurl_when_openhls')])->withInput();
+                }
+            }
+            if($request->has('hlsurl')){
+                if(!preg_match('/^(http|https)(:\/\/)[A-Za-z0-9\.:]+\/[A-Za-z0-9\/\- ]+\.m3u8$/u',$request->get('hlsurl'))){
+                    return redirect()->back()->withErrors(['invalid_extension' => trans('view.form.roomedit.hlsurl_uncorrect')])->withInput();
+                }
+            }
+        }
+
         $db_room = Rooms::where('userid','=',$userid)->first();
         if($db_room == null) {
             $db_room = new Rooms();
@@ -109,8 +140,24 @@ class UserController extends Controller{
         $db_room->roomname = $request->get('roomname');
         $db_room->roomintro = $request->get('roomintro');
         $db_room->category = $request->get('category');
+        if ($request->has('openrtmp')){
+            $db_room->openrtmp = 1;
+        }else{
+            $db_room->openrtmp = 0;
+        }
         $db_room->rtmpurl = $request->get('rtmpurl');
         $db_room->streamkey = $request->get('streamkey');
+        if ($request->has('openhls')){
+            $db_room->openhls = 1;
+        }else{
+            $db_room->openhls = 0;
+        }
+        $db_room->hlsurl = $request->get('hlsurl');
+        if ($request->has('rtmpfirst')){
+            $db_room->rtmpfirst = 1;
+        }else{
+            $db_room->rtmpfirst = 0;
+        }
         if(isset($path)){
             $db_room->coverurl = $request->session()->get('config')->roomcover_prefix.$path;
         }

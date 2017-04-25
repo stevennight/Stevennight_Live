@@ -30,13 +30,20 @@ class CreateRooms extends Migration
                 $table->string('otherroomkey',255);
                 $table->string('created_at',255);
                 $table->string('updated_at',255);
+                $table->integer('guestChat');
             });
         }
         Schema::table('rooms',function ($table){
-            $table->integer('guestChat');
+            $table->integer('openrtmp');
+            $table->integer('openhls');
+            $table->text('hlsurl');
+            $table->integer('rtmpfirst');
         });
         \Illuminate\Support\Facades\DB::table('rooms')->update([
-            'guestChat' => 0,
+            'openrtmp' => 1,
+            'openhls' => 0,
+            'hlsurl' => "",
+            'rtmpfirst' => 1,
         ]);
     }
 
@@ -48,8 +55,14 @@ class CreateRooms extends Migration
     public function down()
     {
         Schema::table('rooms',function ($table){
-            if(Schema::hasColumn('rooms','guestChat'))
-                $table->dropColumn('guestChat');
+            if(Schema::hasColumn('rooms','openrtmp'))
+                $table->dropColumn('openrtmp');
+            if(Schema::hasColumn('rooms','openhls'))
+                $table->dropColumn('openhls');
+            if(Schema::hasColumn('rooms','hlsurl'))
+                $table->dropColumn('hlsurl');
+            if(Schema::hasColumn('rooms','rtmpfirst'))
+                $table->dropColumn('rtmpfirst');
         });
     }
 }

@@ -26,6 +26,10 @@ class CreateConfigGlobalWebsite extends Migration
                 $table->text('roomcover_default');
                 $table->string('chatserver',255);
                 $table->integer('danmakuSpeed');
+                $table->integer('mustVerifyEmail');
+                $table->integer('mustVerifyQQ');
+                $table->integer('mustVerifyEmail_when_createroom');
+                $table->integer('mustVerifyQQ_when_createroom');
             });
             \Illuminate\Support\Facades\DB::table('config_global_website')->insert([
                 'name' => '网站名称',
@@ -37,22 +41,12 @@ class CreateConfigGlobalWebsite extends Migration
                 'roomcover_default' => 'default_file',
                 'chatserver' => 'chat_server_address',
                 'danmakuSpeed' => 5,
+                'mustVerifyEmail' => 1,
+                'mustVerifyQQ' => 1,
+                'mustVerifyEmail_when_createroom' => 1,
+                'mustVerifyQQ_when_createroom' => 1,
             ]);
         }
-
-        //Update Database
-        Schema::table('config_global_website',function($table){
-           $table->integer('mustVerifyEmail');
-           $table->integer('mustVerifyQQ');
-           $table->integer('mustVerifyEmail_when_createroom');
-           $table->integer('mustVerifyQQ_when_createroom');
-        });
-        \Illuminate\Support\Facades\DB::table('config_global_website')->update([
-            'mustVerifyEmail' => 1,
-            'mustVerifyQQ' => 1,
-            'mustVerifyEmail_when_createroom' => 1,
-            'mustVerifyQQ_when_createroom' => 1,
-        ]);
     }
 
     /**
@@ -62,7 +56,7 @@ class CreateConfigGlobalWebsite extends Migration
      */
     public function down()
     {
-        Schema::table('config_global_website',function($table){
+        /*Schema::table('config_global_website',function($table){
             if(Schema::hasColumn('config_global_website','mustVerifyEmail')){
                 if(Schema::hasColumn('config_global_website','mustVerifyEmail'))
                     $table->dropColumn('mustVerifyEmail');
@@ -73,6 +67,6 @@ class CreateConfigGlobalWebsite extends Migration
                 if(Schema::hasColumn('config_global_website','mustVerifyQQ_when_createroom'))
                     $table->dropColumn('mustVerifyQQ_when_createroom');
             }
-        });
+        });*/
     }
 }
