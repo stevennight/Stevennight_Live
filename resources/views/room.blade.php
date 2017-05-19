@@ -165,7 +165,7 @@
                             preload: 'auto',
                             video: {
                                 url: '{{ $value['room_info']->hlsurl }}',
-                                type: 'hls'
+                                type: '{{ \App\Custom\Functions::getHtml5PlayerType($value['room_info']->hlsurl) }}'
                             }
                         });
                         var inter = setInterval(function(){
@@ -502,11 +502,11 @@
                 function launchFullScreenFun(){
                     var player = window.document.getElementById('player');
                     launchFullscreen(player);
-                    if(!isPC){
-                    	screen.orientation.lock('landscape');
-                    }
                     Resize(true);
                     isFullScreen = true;
+                    if (orientation in screen) {
+                        screen.orientation.lock('landscape');
+                    }
                 }
 
                 {{--事件监听   Listener--}}
@@ -610,13 +610,13 @@
 
                 socket.on('connect',function(data){
                     socket.emit('join',{
-                        roomid:"{{ $value['final_roonkey_encry'] }}",
+                        roomid:"{{ $value['final_roomkey_encry'] }}",
                         username: "{{ session()->has('member')?session()->get('member.username'):'guest'}}",
                     });
                     $("#chatcontent").append("<a style='color:green;'> 已连接到聊天服务器。<br /> </a>");
                     //获取在线人数
                     socket.emit('getPeopleOnline',{
-                        roomid:"{{ $value['final_roonkey_encry'] }}"
+                        roomid:"{{ $value['final_roomkey_encry'] }}"
                     });
                 });
 
@@ -626,14 +626,14 @@
 
                 //收到在线人数改变
                 socket.on('peopleOnline', function(data) {
-                    if(data.roomid=="{{ $value['final_roonkey_encry'] }}"){
+                    if(data.roomid=="{{ $value['final_roomkey_encry'] }}"){
                         $("#chatOnline").text(data.online);
                     }
                 });
 
                 //收到别人发送的消息后，显示消息
                 socket.on('broadcast_say', function(data) {
-                    if(data.roomid=="{{ $value['final_roonkey_encry'] }}"){
+                    if(data.roomid=="{{ $value['final_roomkey_encry'] }}"){
                         console.log(data.username + '说: ' + data.text);
                         /*if(data.textcolor=="#ffffff"){
                             var bgcolor="#000000";
@@ -695,7 +695,7 @@
                         //bgcolor:bgcolor,
                         //textcolor: textcolor,
                         text: text,
-                        roomid: "{{ $value['final_roonkey_encry'] }}"
+                        roomid: "{{ $value['final_roomkey_encry'] }}"
                     });
                     text = text.replace(/</g,'');
                     text = text.replace(/>/g,'');

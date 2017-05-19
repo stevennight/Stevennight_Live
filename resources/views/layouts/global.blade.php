@@ -108,14 +108,23 @@
                                             <div class="row">
 
                                             </div>
-                                            <div class="row">
-
-                                            </div>
+                                            @if(session()->has('room'))
                                             <div class="row">
                                                 <div class="col s12">
                                                     <a id="form_tips" style="display:none;"></a>
-                                                    <a id='btn_refresh_userinfo' class="btn waves-effect waves-light" >{{ trans('view.edit.renew_user_info') }}</a>
+                                                    <a id='btn_enter_room_owner' class="btn waves-effect waves-light" href="{{ route('roomOwner',['roomid'=>session('room.roomid')]) }}" >{{ trans('view.edit.enter_room_owner') }}</a>
                                                 </div>
+                                            </div>
+                                            @else
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        <a id="form_tips" style="display:none;"></a>
+                                                        <a id='btn_refresh_userinfo' class="btn waves-effect waves-light" >{{ trans('view.edit.renew_user_info') }}</a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                            <div class="row">
+
                                             </div>
                                             <div class="row">
                                                 <div class="input-field col s12">

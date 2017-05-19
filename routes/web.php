@@ -23,16 +23,18 @@ Route::group(['middleware' => ['ConfigToSession']],function() {
     Route::get('login', 'UserController@login')->name('login')->middleware('LoginStatusCheck');
     Route::get('logout', 'UserController@logout')->name('logout')->middleware('LoginStatusCheck');
 
-
     //修改房间信息
     Route::post('room/edit', 'UserController@roomedit')->name('roomedit')->middleware('LoginStatusCheck');
 
     //播放页
-    Route::get('room/{roomid}', 'RoomController@showRoom')->name('room');
+    Route::get('room/{roomid}', 'RoomController@showRoom')->name('room')->where(['roomid'=>'[0-9]+']);
+    Route::get('room/owner/{roomid}','RoomController@roomOwner')->name('roomOwner')->middleware('LoginStatusCheck')->where(['roomid'=>'[0-9]+']);
+    Route::post('room/owner/{roomid}/toggleIndex','RoomController@toggleIndex')->name('roomToggleIndex')->where(['roomid'=>'[0-9]+']);
+    Route::get('room/owner/edit','RoomController@showRoomEditSingle')->name('roomEditSingle')->middleware('LoginStatusCheck');
 });
 
 Route::get('error','Controller@error')->name('error');
-Route::get('test',function(){
+/*Route::get('test',function(){
     $host = "127.0.0.1";
     $port = 1935;
     $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)or die("Could not create    socket\n"); // 创建一个Socket
@@ -44,4 +46,4 @@ Route::get('test',function(){
         echo("Response was:" . $buff . "\n");
     //}
     socket_close($socket);
-});
+});*/

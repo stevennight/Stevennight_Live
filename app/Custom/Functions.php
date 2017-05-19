@@ -43,30 +43,37 @@ class Functions{
     public static function getMyRoomInfo(){
 
         if(!session()->has('member')){
+            if(session()->has('room')){
+                session()->forget('room');
+            }
             return;
         }
         $userid = session('member.userid');
-        $db_rooms = Rooms::where('userid','=',$userid)->first();
-        if($db_rooms == null){
+        $db_room = Rooms::where('userid','=',$userid)->first();
+        if($db_room == null){
+            if(session()->has('room')){
+                session()->forget('room');
+            }
             return;
         }
 
         $data = [
-            'roomname' => $db_rooms->roomname,
-            'roomintro' => $db_rooms->roomintro,
-            'catagory' => $db_rooms->category,
-            'openrtmp' => $db_rooms->openrtmp,
-            'rtmpurl' => $db_rooms->rtmpurl,
-            'streamkey' => $db_rooms->streamkey,
-            'openhls' => $db_rooms->openhls,
-            'hlsurl' => $db_rooms->hlsurl,
-            'rtmpfirst' => $db_rooms->rtmpfirst,
-            'coverurl' => $db_rooms->coverurl,
-            'roomkey' => $db_rooms->roomkey,
-            'cooperation' => $db_rooms->cooperation,
-            'otherroomkey' => $db_rooms->otherroomkey,
-            'isindex' => $db_rooms->isindex,
-            'guestChat' => $db_rooms->guestChat,
+            'roomid' => $db_room->id,
+            'roomname' => $db_room->roomname,
+            'roomintro' => $db_room->roomintro,
+            'catagory' => $db_room->category,
+            'openrtmp' => $db_room->openrtmp,
+            'rtmpurl' => $db_room->rtmpurl,
+            'streamkey' => $db_room->streamkey,
+            'openhls' => $db_room->openhls,
+            'hlsurl' => $db_room->hlsurl,
+            'rtmpfirst' => $db_room->rtmpfirst,
+            'coverurl' => $db_room->coverurl,
+            'roomkey' => $db_room->roomkey,
+            'cooperation' => $db_room->cooperation,
+            'otherroomkey' => $db_room->otherroomkey,
+            'isindex' => $db_room->isindex,
+            'guestChat' => $db_room->guestChat,
         ];
         session()->put('room',$data);
         return;
@@ -115,4 +122,14 @@ class Functions{
         return md5($roomkey).substr($roomkey,40,10).substr($roomkey,10,10);
     }
 
+    //判断html 播放器视频类型。
+    public static function getHtml5PlayerType($url){
+        if(preg_match('/\.m3u8$/is',$url)){
+            return "m3u8";
+        }else if(preg_match('/\.flv$/is',$url)){
+            return "flv";
+        }
+        return "auto";
+    }
 }
+

@@ -120,7 +120,7 @@ class UserController extends Controller{
                 }
             }
             if($request->has('hlsurl')){
-                if(!preg_match('/^(http|https)(:\/\/)[A-Za-z0-9\.:]+\/[A-Za-z0-9\/\- ]+\.m3u8$/u',$request->get('hlsurl'))){
+                if(!preg_match('/^(http|https)(:\/\/)[A-Za-z0-9\.:]+\/[A-Za-z0-9\/\- ]+\.(m3u8|flv)$/u',$request->get('hlsurl'))){
                     return redirect()->back()->withErrors(['invalid_extension' => trans('view.form.roomedit.hlsurl_uncorrect')])->withInput();
                 }
             }
