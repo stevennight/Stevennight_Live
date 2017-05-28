@@ -4,7 +4,7 @@
 
 ## 前言
 
-![e9228aa1-fa4f-49a9-ad78-b7adec3a8094](.\e9228aa1-fa4f-49a9-ad78-b7adec3a8094.png)
+![e9228aa1-fa4f-49a9-ad78-b7adec3a8094](e9228aa1-fa4f-49a9-ad78-b7adec3a8094.png)
 
 > 图片截自：http://caniuse.com/#search=MSE
 
@@ -35,7 +35,7 @@ cd 切换路径为 srs/trunk
 
 也可以使用其它源：https://github.com/ossrs/srs
 
-![snipaste20170504_173200](.\snipaste20170504_173200.png)
+![snipaste20170504_173200](snipaste20170504_173200.png)
 
 例如：
 
@@ -67,7 +67,7 @@ https://github.com/ossrs/srs/wiki/v3_CN_Build
 
 #### 启动 SRS
 
-![snipaste20170504_233031](.\snipaste20170504_233031.png)
+![snipaste20170504_233031](snipaste20170504_233031.png)
 
 虽然配置文件全部写好在 conf 文件夹里，但是需要自己修改 http.flv.live.conf 配置文件启用跨域。
 
@@ -112,13 +112,13 @@ done
 
 ### 直播平台设置
 
-![snipaste20170504_234331](.\snipaste20170504_234331.png)
+![snipaste20170504_234331](snipaste20170504_234331.png)
 
 格式：http://你的 IP 地址:8080/live/abc.flv
 
 IP 地址对应机器，端口对应软件，live 对应文件夹路径，文件名对应文件名。
 
-![snipaste20170504_234909](.\snipaste20170504_234909.png)
+![snipaste20170504_234909](snipaste20170504_234909.png)
 
 格式：rtmp://你的 IP 地址/live/
 
@@ -138,17 +138,17 @@ IP 地址对应机器，端口对应软件，live 对应文件夹路径，文件
 
 如果是使用 VirtualBox ，以下是关于网卡切换的一点提示。
 
-![snipaste20170504_235837](.\snipaste20170504_235837.png)
+![snipaste20170504_235837](snipaste20170504_235837.png)
 
 鼠标右键
 
-![snipaste20170504_235720](.\snipaste20170504_235720.png)
+![snipaste20170504_235720](snipaste20170504_235720.png)
 
 网络...
 
-![snipaste20170505_000058](.\snipaste20170505_000058.png)
+![snipaste20170505_000058](snipaste20170505_000058.png)
 
-![snipaste20170505_000133](.\snipaste20170505_000133.png)
+![snipaste20170505_000133](snipaste20170505_000133.png)
 
 网络地址转换(NAT)：使用宿主机的网络。
 

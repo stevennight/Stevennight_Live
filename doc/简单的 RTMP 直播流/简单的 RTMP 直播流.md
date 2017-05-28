@@ -4,7 +4,7 @@
 
 ## 前言
 
-![Stream](.\Stream.png)
+![Stream](Stream.png)
 
 推流端有 FFmpeg 、OBS(Open Broadcaster Software) 以及其他推流端。
 
@@ -18,7 +18,7 @@ RTMP 服务器有 SRS(Simple RTMP Server) 、Nginx+RTMP-module 以及其他 RTMP
 
 ###选用 SRS 作为服务器 
 
-![snipaste20170330_150656](.\snipaste20170330_150656.png)
+![snipaste20170330_150656](snipaste20170330_150656.png)
 
 按照 https://github.com/winlinvip/srs 项目的三步说明：
 
@@ -26,11 +26,11 @@ RTMP 服务器有 SRS(Simple RTMP Server) 、Nginx+RTMP-module 以及其他 RTMP
 
 编译 SRS ，最后运行。
 
-![snipaste20170504_173200](.\snipaste20170504_173200.png)
+![snipaste20170504_173200](snipaste20170504_173200.png)
 
 也可以使用其他镜像源克隆，或者下载对应 Linux 发行版编译好的包：http://ossrs.net/srs.release/releases/
 
-![snipaste20170330_144332](.\snipaste20170330_144332.png)
+![snipaste20170330_144332](snipaste20170330_144332.png)
 
 ```shell
 ./objs/srs -c conf/srs.conf
@@ -46,7 +46,7 @@ SRS 项目是有加入第三方项目 FFmpeg 进行编译生成：./objs/ffmpeg/
 
 也可以在 http://ffmpeg.org/download.html 页面找到对应 Linux 发行版编译好的包。
 
-![snipaste20170330_150548](.\snipaste20170330_150548.png)
+![snipaste20170330_150548](snipaste20170330_150548.png)
 
 ```shell
 ffmpeg -re -i 1.mp4 -c copy -f flv rtmp://127.0.0.1/live/abc;
@@ -58,19 +58,19 @@ FFmpeg Documentation：http://ffmpeg.org/ffmpeg-all.html
 
 IP 地址对应机器，live 对应路径，Stream key（串流码 / 流密钥）对应直播流。
 
-![snipaste20170330_154025](.\snipaste20170330_154025.png)
+![snipaste20170330_154025](snipaste20170330_154025.png)
 
 FFmpeg 推流中... 
 
 ###选用 VLC 作为播放器
 
-![snipaste20170330_154808](.\snipaste20170330_154808.png)
+![snipaste20170330_154808](snipaste20170330_154808.png)
 
 Open Network Stream
 
-![snipaste20170330_155123](.\snipaste20170330_155123.png)
+![snipaste20170330_155123](snipaste20170330_155123.png)
 
-![snipaste20170330_163723](.\snipaste20170330_163723.png)
+![snipaste20170330_163723](snipaste20170330_163723.png)
 
 > 图片截自：Lefty Hand Cream - なんでやねんねん
 

@@ -12,7 +12,7 @@
 
 你可以在上图了解到这一技术（ HLS ，HTTP Live Streaming ）目前在浏览器的支持情况，得益于 https://github.com/video-dev/hls.js 项目基于 MSE(Media Source Extensions) 技术的帮助，使得 HLS 能得到全部现代浏览器的支持。
 
-![e9228aa1-fa4f-49a9-ad78-b7adec3a8094](.\e9228aa1-fa4f-49a9-ad78-b7adec3a8094.png)
+![e9228aa1-fa4f-49a9-ad78-b7adec3a8094](e9228aa1-fa4f-49a9-ad78-b7adec3a8094.png)
 
 > 图片截自：http://caniuse.com/#search=MSE
 
@@ -28,11 +28,11 @@ http://bbs.sise.com.cn/forum.php?mod=viewthread&tid=245022
 
 ### 服务器
 
-![snipaste20170423_174006](.\snipaste20170423_174006.png)
+![snipaste20170423_174006](snipaste20170423_174006.png)
 
 解压 **7thlive.zip** 并确保所在路径没有中文。
 
-![snipaste20170423_174056](.\snipaste20170423_174056.png)
+![snipaste20170423_174056](snipaste20170423_174056.png)
 
 双击 **go-nds.exe** 运行服务器，在结束直播后于任务管理器中找到并结束这一进程。
 
@@ -50,7 +50,7 @@ http://bbs.sise.com.cn/forum.php?mod=viewthread&tid=245022
 
 -
 
-![snipaste20170423_173642](.\snipaste20170423_173642.png)
+![snipaste20170423_173642](snipaste20170423_173642.png)
 
 在 conf\nginx.conf 文件中已经配置了 Allow-Control-Allow-Origin 头以跨域，也可于此修改服务器的端口。
 
@@ -58,7 +58,7 @@ http://bbs.sise.com.cn/forum.php?mod=viewthread&tid=245022
 
 启动 **OBS Studio** ，其它设置请参考 **RTMP 直播自助**。
 
-![snipaste20170423_210807](.\snipaste20170423_210807.png)
+![snipaste20170423_210807](snipaste20170423_210807.png)
 
 设置录像路径为服务器 **www** 文件夹的路径，在我这路径为：C:\Users\Test\Downloads\7thlive\Dev-Server\www
 
@@ -76,7 +76,7 @@ http://bbs.sise.com.cn/forum.php?mod=viewthread&tid=245022
 
 -
 
-![snipaste20170423_212221](.\snipaste20170423_212221.png)
+![snipaste20170423_212221](snipaste20170423_212221.png)
 
 文件名格式随便填，意思就是你想填什么填什么。
 
@@ -96,7 +96,7 @@ http://bbs.sise.com.cn/forum.php?mod=viewthread&tid=245022
 
 ### 直播平台设置
 
-![snipaste20170423_214744](.\snipaste20170423_214744.png)
+![snipaste20170423_214744](snipaste20170423_214744.png)
 
 格式：http://你的 IP 地址:8080/abc.m3u8
 
