@@ -16,7 +16,7 @@ RTMP 服务器有 SRS(Simple RTMP Server) 、Nginx+RTMP-module 以及其他 RTMP
 
 ## 实例
 
-###选用 SRS 作为服务器 
+### 选用 SRS 作为服务器
 
 ![snipaste20170330_150656](snipaste20170330_150656.png)
 
