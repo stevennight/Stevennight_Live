@@ -4,7 +4,9 @@
 
 ## 前言
 
-![0cbd6315-907e-4580-9c81-fe79decae054](.\0cbd6315-907e-4580-9c81-fe79decae054.png)
+![0cbd6315-907e-4580-9c81-fe79decae054](0cbd6315-907e-4580-9c81-fe79decae054.png)
+
+
 
 > 图片截自：http://caniuse.com/#search=HLS
 
