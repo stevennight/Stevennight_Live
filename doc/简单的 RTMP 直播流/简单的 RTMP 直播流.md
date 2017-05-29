@@ -16,7 +16,7 @@ RTMP 服务器有 SRS(Simple RTMP Server) 、Nginx+RTMP-module 以及其他 RTMP
 
 ## 实例
 
-###选用 SRS 作为服务器 
+### 选用 SRS 作为服务器
 
 ![snipaste20170330_150656](snipaste20170330_150656.png)
 
@@ -38,7 +38,7 @@ RTMP 服务器有 SRS(Simple RTMP Server) 、Nginx+RTMP-module 以及其他 RTMP
 
 srs -c 配置文件
 
-###选用 FFmpeg 作为推流端
+### 选用 FFmpeg 作为推流端
 
 SRS 项目是有加入第三方项目 FFmpeg 进行编译生成：./objs/ffmpeg/bin/ffmpeg
 
@@ -62,7 +62,7 @@ IP 地址对应机器，live 对应路径，Stream key（串流码 / 流密钥�
 
 FFmpeg 推流中... 
 
-###选用 VLC 作为播放器
+### 选用 VLC 作为播放器
 
 ![snipaste20170330_154808](snipaste20170330_154808.png)
 
