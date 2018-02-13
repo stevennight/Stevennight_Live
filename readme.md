@@ -1,5 +1,6 @@
 # Stevennight Live -- Stevennight 直播
 
+[![GitHub version](https://badge.fury.io/gh/stevennight%2FStevennight_Live@2x.png)](https://badge.fury.io/gh/stevennight%2FStevennight_Live)
 [TOC]
 
 ## 简介
